@@ -8,6 +8,7 @@ public class ObjectManager {
 	}
 	
 	public void addObject(GameObject o){
+		System.out.println("test");
 		objects.add(o);
 	}
 	
@@ -22,6 +23,7 @@ public class ObjectManager {
 	
 	public void draw(Graphics g){
 		for (int i = 0; i < objects.size(); i++) {
+			
 			GameObject o = objects.get(i);
 			o.draw(g);
 		}

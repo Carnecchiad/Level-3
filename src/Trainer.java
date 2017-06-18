@@ -1,7 +1,9 @@
 import java.awt.Graphics;
 
 public class Trainer extends GameObject {
-int speed;
+double speed;
+double xd;
+double yd;
 boolean up;
 boolean down;
 boolean left;
@@ -12,7 +14,9 @@ public Trainer(int x, int y, int width, int height){
 	this.y = y;
 	this.width = width;
 	this.height = height;
-	speed = 2;
+	yd = y;
+	xd = x;
+	speed = .2;
 	up = false;
 	down = false;
 	left = false;
@@ -22,17 +26,31 @@ public Trainer(int x, int y, int width, int height){
 void update(){
 	super.update();
 	if(up){
-		y -= speed;
+		yd -= speed;
 	}
 	if(down){
-		y += speed;
+		yd += speed;
 	}
 	if(left){
-		x -= speed;
+		xd -= speed;
 	}
 	if(right){
-		x += speed;
+		xd += speed;
 	}
+	if(xd < 0){
+		xd = 0;
+	}
+	else if(xd > 358 - width){
+		xd = 358 - width;
+	}
+	else if(yd < 0){
+		yd = 0;
+	}
+	else if(yd > 429 - height){
+		yd = 429 - height;
+	}
+	y = (int) yd;
+	x = (int) xd;
 }
 
 void draw(Graphics g){
