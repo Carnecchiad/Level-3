@@ -1,40 +1,57 @@
 import java.awt.Graphics;
 import java.util.ArrayList;
+
 public class ObjectManager {
 	ArrayList<GameObject> objects;
-	
-	public ObjectManager(){
+	Trainer player;
+
+	public ObjectManager() {
 		objects = new ArrayList<GameObject>();
 	}
-	
-	public void addObject(GameObject o){
+
+	public void addObject(GameObject o) {
 		System.out.println("test");
 		objects.add(o);
 	}
-	
-	public void update(){
+
+	public void addObject(Trainer t) {
+		player = t;
+	}
+
+	public void update() {
+		player.update();
 		for (int i = 0; i < objects.size(); i++) {
 			GameObject o = objects.get(i);
 			o.update();
 		}
-		
+
 		purgeObjects();
 	}
-	
-	public void draw(Graphics g){
+
+	public void draw(Graphics g) {
+		player.draw(g);
 		for (int i = 0; i < objects.size(); i++) {
-			
+
 			GameObject o = objects.get(i);
 			o.draw(g);
 		}
 	}
-	
-	private void purgeObjects(){
+
+	private void purgeObjects() {
 		for (int i = 0; i < objects.size(); i++) {
-			if(!objects.get(i).isAlive){
+			if (!objects.get(i).isAlive) {
 				objects.remove(i);
 			}
 		}
 	}
-	
+
+	public void checkCollision() {
+		for (int i = 0; i < objects.size(); i++) {
+			if (player.collisionBox.intersects(objects.get(i).collisionBox)) {
+				player.collider = true;
+			}
+		}
+
+	}
+
 }

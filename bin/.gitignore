@@ -1,8 +1,10 @@
 /GameObject.class
 /GamePanel.class
+/Hitbox.class
 /ObjectManager.class
 /Pokemon.class
 /Trainer.class
 /lab.png
 /red.png
 /red2.png
+/Obstacle.class
