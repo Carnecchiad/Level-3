@@ -10,6 +10,8 @@ public class Trainer extends GameObject {
 	boolean right;
 	boolean canmove;
 	boolean collider;
+	int frame;
+	int buttonpressed;
 
 	public Trainer(int x, int y, int width, int height) {
 		super();
@@ -17,6 +19,8 @@ public class Trainer extends GameObject {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		frame = 0;
+		buttonpressed = 0;
 		yd = y;
 		xd = x;
 		speed = .2;
@@ -64,6 +68,8 @@ public class Trainer extends GameObject {
 
 	void draw(Graphics g) {
 		super.draw(g);
-		g.drawImage(GamePanel.trainerImg, x, y, width, height, null);
+		g.drawImage(GamePanel.trainerImg.getSubimage(frame * (GamePanel.trainerImg.getWidth() / 4),
+				buttonpressed * (GamePanel.trainerImg.getHeight() / 4), GamePanel.trainerImg.getWidth() / 4,
+				GamePanel.trainerImg.getHeight() / 4), x, y, width, height, null);
 	}
 }

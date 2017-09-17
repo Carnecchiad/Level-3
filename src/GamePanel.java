@@ -22,16 +22,22 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Trainer trainer;
 	ObjectManager manager;
 	Obstacle shelf1;
+	Obstacle shelf2;
+	Obstacle shelf3;
 
 	public GamePanel() {
 		timer = new Timer(1, this);
-		trainer = new Trainer(200, 200, 34, 41);
+		trainer = new Trainer(155, 200, 50, 50);
 		shelf1 = new Obstacle(221, 240, 145, 60);
+		shelf2 = new Obstacle(0, 240, 135, 60);
+		shelf3 = new Obstacle(300, 30, 120, 60);
 		manager = new ObjectManager();
 		manager.addObject(trainer);
 		manager.addObject(shelf1);
+		manager.addObject(shelf2);
+		manager.addObject(shelf3);
 		try {
-			trainerImg = ImageIO.read(this.getClass().getResourceAsStream("red.png"));
+			trainerImg = ImageIO.read(this.getClass().getResourceAsStream("spritesheet.png"));
 			labImg = ImageIO.read(this.getClass().getResourceAsStream("lab.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -111,15 +117,39 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_UP && !trainer.left && !trainer.right) {
 			trainer.up = true;
+			trainer.buttonpressed = 3;
+			if (trainer.frame < 3) {
+				trainer.frame++;
+			} else {
+				trainer.frame = 0;
+			}
 		}
 		if (e.getKeyCode() == KeyEvent.VK_DOWN && !trainer.left && !trainer.right) {
 			trainer.down = true;
+			trainer.buttonpressed = 0;
+			if (trainer.frame < 3) {
+				trainer.frame++;
+			} else {
+				trainer.frame = 0;
+			}
 		}
 		if (e.getKeyCode() == KeyEvent.VK_LEFT && !trainer.up && !trainer.down) {
 			trainer.left = true;
+			trainer.buttonpressed = 1;
+			if (trainer.frame < 3) {
+				trainer.frame++;
+			} else {
+				trainer.frame = 0;
+			}
 		}
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT && !trainer.up && !trainer.down) {
 			trainer.right = true;
+			trainer.buttonpressed = 2;
+			if (trainer.frame < 3) {
+				trainer.frame++;
+			} else {
+				trainer.frame = 0;
+			}
 		}
 	}
 
