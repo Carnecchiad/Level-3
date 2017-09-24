@@ -19,26 +19,52 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int CURRENT_STATE = GAME_STATE;
 	public static BufferedImage trainerImg;
 	public static BufferedImage labImg;
+	public static BufferedImage professorImg;
 	Trainer trainer;
+	Professor oak;
 	ObjectManager manager;
 	Obstacle shelf1;
 	Obstacle shelf2;
 	Obstacle shelf3;
+	Obstacle ball1;
+	Obstacle ball2;
+	Obstacle ball3;
+	Obstacle machine;
+	Obstacle plant1;
+	Obstacle plant2;
+	Obstacle table;
 
 	public GamePanel() {
 		timer = new Timer(1, this);
 		trainer = new Trainer(155, 200, 50, 50);
+		oak = new Professor(240, 80, 34, 41);
 		shelf1 = new Obstacle(221, 240, 145, 60);
 		shelf2 = new Obstacle(0, 240, 135, 60);
-		shelf3 = new Obstacle(300, 30, 120, 60);
+		shelf3 = new Obstacle(248, 20, 120, 60);
+		ball1 = new Obstacle(224, 137, 18, 19);
+		ball2 = new Obstacle(253, 137, 15, 19);
+		ball3 = new Obstacle(281, 137, 15, 19);
+		machine = new Obstacle(30, 115, 50, 75);
+		plant1 = new Obstacle(0, 360, 20, 53);
+		plant2 = new Obstacle(333, 360, 20, 53);
+		table = new Obstacle(0, 15, 245, 35);
 		manager = new ObjectManager();
 		manager.addObject(trainer);
+		manager.addObject(oak);
 		manager.addObject(shelf1);
 		manager.addObject(shelf2);
 		manager.addObject(shelf3);
+		manager.addObject(ball1);
+		manager.addObject(ball2);
+		manager.addObject(ball3);
+		manager.addObject(machine);
+		manager.addObject(plant1);
+		manager.addObject(plant2);
+		manager.addObject(table);
 		try {
 			trainerImg = ImageIO.read(this.getClass().getResourceAsStream("spritesheet.png"));
 			labImg = ImageIO.read(this.getClass().getResourceAsStream("lab.png"));
+			professorImg = ImageIO.read(this.getClass().getResourceAsStream("Oak.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
