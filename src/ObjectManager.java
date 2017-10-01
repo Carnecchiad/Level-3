@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class ObjectManager {
 	ArrayList<GameObject> objects;
 	Trainer player;
+	GameObject object;
 
 	public ObjectManager() {
 		objects = new ArrayList<GameObject>();
