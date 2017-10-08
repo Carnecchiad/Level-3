@@ -49,6 +49,12 @@ public class ObjectManager {
 	public void checkCollision() {
 		for (int i = 0; i < objects.size(); i++) {
 			if (player.collisionBox.intersects(objects.get(i).collisionBox)) {
+				if (objects.get(i) instanceof Professor) {
+					((Professor) objects.get(i)).setCanTalk(true);
+				}
+				if (objects.get(i) instanceof Pokeball) {
+					((Pokeball) objects.get(i)).setCanUse(true);
+				}
 				player.collider = true;
 			}
 		}

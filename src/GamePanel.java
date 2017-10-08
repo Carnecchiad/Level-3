@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -20,15 +22,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public static BufferedImage trainerImg;
 	public static BufferedImage labImg;
 	public static BufferedImage professorImg;
+	boolean haveTalked;
 	Trainer trainer;
 	Professor oak;
 	ObjectManager manager;
 	Obstacle shelf1;
 	Obstacle shelf2;
 	Obstacle shelf3;
-	Obstacle ball1;
-	Obstacle ball2;
-	Obstacle ball3;
+	Pokeball ball1;
+	Pokeball ball2;
+	Pokeball ball3;
 	Obstacle machine;
 	Obstacle plant1;
 	Obstacle plant2;
@@ -41,13 +44,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		shelf1 = new Obstacle(221, 240, 145, 60);
 		shelf2 = new Obstacle(0, 240, 135, 60);
 		shelf3 = new Obstacle(248, 20, 120, 60);
-		ball1 = new Obstacle(224, 137, 18, 19);
-		ball2 = new Obstacle(253, 137, 15, 19);
-		ball3 = new Obstacle(281, 137, 15, 19);
+		ball1 = new Pokeball(224, 137, 18, 19);
+		ball2 = new Pokeball(253, 137, 15, 19);
+		ball3 = new Pokeball(281, 137, 15, 19);
 		machine = new Obstacle(30, 115, 50, 75);
 		plant1 = new Obstacle(0, 360, 20, 53);
 		plant2 = new Obstacle(333, 360, 20, 53);
 		table = new Obstacle(0, 15, 245, 35);
+		haveTalked = false;
 		manager = new ObjectManager();
 		manager.addObject(trainer);
 		manager.addObject(oak);
@@ -177,6 +181,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				trainer.frame = 0;
 			}
 		}
+		if (e.getKeyCode() == KeyEvent.VK_SPACE && oak.canTalk == true) {
+			JOptionPane.showMessageDialog(this,
+					"Hi there, My name is Oak.\n Today is the day you will recieve your first Pokemon!");
+			JOptionPane.showMessageDialog(this, "Go ahead, Choose one of those Pokemon there!");
+			haveTalked = true;
+		}
+		oak.setCanTalk(false);
+		if (e.getKeyCode() == KeyEvent.VK_SPACE && ball1.canUse && ball3.canUse && haveTalked) {
+			JOptionPane.showMessageDialog(this, "charmander");
+		} else if (e.getKeyCode() == KeyEvent.VK_SPACE && ball1.canUse && haveTalked) {
+			JOptionPane.showMessageDialog(this, "bulbasaur");
+		} else if (e.getKeyCode() == KeyEvent.VK_SPACE && ball3.canUse && haveTalked) {
+			JOptionPane.showMessageDialog(this, "squirtle", "Choose Squirtle?", JOptionPane.INFORMATION_MESSAGE,
+					new ImageIcon(this.getClass().getResource("Oak.png")));
+		}
+		ball1.setCanUse(false);
+		ball2.setCanUse(false);
+		ball3.setCanUse(false);
 	}
 
 	@Override
