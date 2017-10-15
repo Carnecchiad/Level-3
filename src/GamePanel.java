@@ -189,12 +189,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 		oak.setCanTalk(false);
 		if (e.getKeyCode() == KeyEvent.VK_SPACE && ball1.canUse && ball3.canUse && haveTalked) {
-			JOptionPane.showMessageDialog(this, "charmander");
+			JOptionPane.showMessageDialog(this, "charmander", "Choose Squirtle", JOptionPane.INFORMATION_MESSAGE,
+					new ImageIcon(this.getClass().getResource("charmander.png")));
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE && ball1.canUse && haveTalked) {
 			JOptionPane.showMessageDialog(this, "bulbasaur");
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE && ball3.canUse && haveTalked) {
 			JOptionPane.showMessageDialog(this, "squirtle", "Choose Squirtle?", JOptionPane.INFORMATION_MESSAGE,
-					new ImageIcon(this.getClass().getResource("Oak.png")));
+					new ImageIcon(this.getClass().getResource("squirtle.gif")));
 		}
 		ball1.setCanUse(false);
 		ball2.setCanUse(false);
