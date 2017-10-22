@@ -22,6 +22,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public static BufferedImage trainerImg;
 	public static BufferedImage labImg;
 	public static BufferedImage professorImg;
+	public static BufferedImage battleImg;
 	boolean haveTalked;
 	Trainer trainer;
 	Professor oak;
@@ -69,6 +70,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			trainerImg = ImageIO.read(this.getClass().getResourceAsStream("spritesheet.png"));
 			labImg = ImageIO.read(this.getClass().getResourceAsStream("lab.png"));
 			professorImg = ImageIO.read(this.getClass().getResourceAsStream("Oak.png"));
+			battleImg = ImageIO.read(this.getClass().getResourceAsStream("battleScene.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -89,6 +91,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			drawGameState(g);
 		} else if (CURRENT_STATE == END_STATE) {
 			// drawEndState(g);
+		}
+		else if(CURRENT_STATE == BATTLE_STATE) {
+			drawBattleState(g);
 		}
 
 	}
@@ -111,12 +116,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawGameState(Graphics g) {
-		g.drawImage(labImg, 0, 0, Pokemon.width, Pokemon.height, null);
+		g.drawImage(labImg, 0, 0, Pokemon.width1, Pokemon.height1, null);
 		manager.draw(g);
 	}
 
-	void drawBattleState() {
-
+	void drawBattleState(Graphics g) {
+		g.drawImage(battleImg, 0, 0, Pokemon.width1, Pokemon.height1, null);
+		//manager.draw(g);
 	}
 
 	void drawEndState() {
@@ -183,19 +189,46 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 		if (e.getKeyCode() == KeyEvent.VK_SPACE && oak.canTalk == true) {
 			JOptionPane.showMessageDialog(this,
-					"Hi there, My name is Oak.\n Today is the day you will recieve your first Pokemon!");
-			JOptionPane.showMessageDialog(this, "Go ahead, Choose one of those Pokemon there!");
+					"Hi there, My name is Oak.\n Today is the day you will recieve your first Pokemon!",
+					"Professor Oak", JOptionPane.INFORMATION_MESSAGE,
+					new ImageIcon(this.getClass().getResource("Oak.png")));
+			JOptionPane.showMessageDialog(this, "Go ahead, Choose one of those Pokemon there!", "Professor Oak",
+					JOptionPane.INFORMATION_MESSAGE, new ImageIcon(this.getClass().getResource("Oak.png")));
 			haveTalked = true;
 		}
 		oak.setCanTalk(false);
 		if (e.getKeyCode() == KeyEvent.VK_SPACE && ball1.canUse && ball3.canUse && haveTalked) {
-			JOptionPane.showMessageDialog(this, "charmander", "Choose Squirtle", JOptionPane.INFORMATION_MESSAGE,
-					new ImageIcon(this.getClass().getResource("charmander.png")));
+			int c = JOptionPane.showOptionDialog(this, "Charmander", "Choose Charmander?", JOptionPane.YES_NO_OPTION,
+					JOptionPane.INFORMATION_MESSAGE, new ImageIcon(this.getClass().getResource("charmander.png")), null,
+					null);
+			if (c == 0) {
+				JOptionPane.showMessageDialog(this, "Charmander eh? Very nice choice. Now Let's have a battle!",
+						"Professor Oak", JOptionPane.INFORMATION_MESSAGE,
+						new ImageIcon(this.getClass().getResource("Oak.png")));
+				CURRENT_STATE = BATTLE_STATE;
+			}
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE && ball1.canUse && haveTalked) {
-			JOptionPane.showMessageDialog(this, "bulbasaur");
+			int b = JOptionPane.showOptionDialog(this, "Bulbasaur", "Choose Bulbasaur?", JOptionPane.YES_NO_OPTION,
+					JOptionPane.INFORMATION_MESSAGE, new ImageIcon(this.getClass().getResource("bulbasaur.png")), null,
+					null);
+			if (b == 0) {
+				JOptionPane.showMessageDialog(this, "Bulbasaur eh? Very nice choice. Now Let's have a battle!",
+						"Professor Oak", JOptionPane.INFORMATION_MESSAGE,
+						new ImageIcon(this.getClass().getResource("Oak.png")));
+				CURRENT_STATE = BATTLE_STATE;
+			}
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE && ball3.canUse && haveTalked) {
-			JOptionPane.showMessageDialog(this, "squirtle", "Choose Squirtle?", JOptionPane.INFORMATION_MESSAGE,
-					new ImageIcon(this.getClass().getResource("squirtle.gif")));
+			int s = JOptionPane.showOptionDialog(this, "Squirtle", "Choose Squirtle?", JOptionPane.YES_NO_OPTION,
+					JOptionPane.INFORMATION_MESSAGE, new ImageIcon(this.getClass().getResource("squirtle.gif")), null,
+					null);
+			if (s == 0) {
+				JOptionPane.showMessageDialog(this, "Squirtle eh? Very nice choice. Now Let's have a battle!",
+						"Professor Oak", JOptionPane.INFORMATION_MESSAGE,
+						new ImageIcon(this.getClass().getResource("Oak.png")));
+				
+				CURRENT_STATE = BATTLE_STATE;
+			}
+
 		}
 		ball1.setCanUse(false);
 		ball2.setCanUse(false);
