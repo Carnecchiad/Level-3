@@ -37,6 +37,14 @@ public class ObjectManager {
 			o.draw(g);
 		}
 	}
+	
+	public void draw2(Graphics g) {
+		for (int i = 0; i < objects.size(); i++) {
+
+			GameObject o = objects.get(i);
+			o.draw(g);
+		}
+	}
 
 	private void purgeObjects() {
 		for (int i = 0; i < objects.size(); i++) {

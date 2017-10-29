@@ -23,10 +23,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public static BufferedImage labImg;
 	public static BufferedImage professorImg;
 	public static BufferedImage battleImg;
+	public static BufferedImage bulbasaurImg;
 	boolean haveTalked;
 	Trainer trainer;
 	Professor oak;
 	ObjectManager manager;
+	ObjectManager manager2;
 	Obstacle shelf1;
 	Obstacle shelf2;
 	Obstacle shelf3;
@@ -37,6 +39,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Obstacle plant1;
 	Obstacle plant2;
 	Obstacle table;
+	Sprite1 bulbasaur;
 
 	public GamePanel() {
 		timer = new Timer(1, this);
@@ -52,8 +55,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		plant1 = new Obstacle(0, 360, 20, 53);
 		plant2 = new Obstacle(333, 360, 20, 53);
 		table = new Obstacle(0, 15, 245, 35);
+		bulbasaur = new Sprite1(150, 200, 180, 157);
 		haveTalked = false;
 		manager = new ObjectManager();
+		manager2 = new ObjectManager();
 		manager.addObject(trainer);
 		manager.addObject(oak);
 		manager.addObject(shelf1);
@@ -66,11 +71,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		manager.addObject(plant1);
 		manager.addObject(plant2);
 		manager.addObject(table);
+		manager2.addObject(bulbasaur);
 		try {
 			trainerImg = ImageIO.read(this.getClass().getResourceAsStream("spritesheet.png"));
 			labImg = ImageIO.read(this.getClass().getResourceAsStream("lab.png"));
 			professorImg = ImageIO.read(this.getClass().getResourceAsStream("Oak.png"));
 			battleImg = ImageIO.read(this.getClass().getResourceAsStream("battleScene.png"));
+			//bulbasaurImg = ImageIO.read(this.getClass().getResourceAsStream("bulbasaursprite.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -122,7 +129,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	void drawBattleState(Graphics g) {
 		g.drawImage(battleImg, 0, 0, Pokemon.width1, Pokemon.height1, null);
-		//manager.draw(g);
+		manager2.draw2(g);
 	}
 
 	void drawEndState() {
