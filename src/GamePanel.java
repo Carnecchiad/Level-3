@@ -25,6 +25,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public static BufferedImage battleImg;
 	public static BufferedImage bulbasaurImg;
 	public static BufferedImage charmanderImg;
+	public static BufferedImage squirtleImg;
+	public static BufferedImage oponentImg;
 	boolean haveTalked;
 	Trainer trainer;
 	Professor oak;
@@ -42,6 +44,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Obstacle table;
 	Bulbasaur bulbasaur;
 	Charmander charmander;
+	Squirtle squirtle;
+	Opponent opponent;
+	String chosen = "";
 
 	public GamePanel() {
 		timer = new Timer(1, this);
@@ -59,6 +64,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		table = new Obstacle(0, 15, 245, 35);
 		bulbasaur = new Bulbasaur(45, 235, 100, 87);
 		charmander = new Charmander(45, 235, 90, 93);
+		squirtle = new Squirtle(45, 235, 90, 92);
+		opponent = new Opponent(100, 100, 90, 92, chosen);
 		haveTalked = false;
 		manager = new ObjectManager();
 		manager2 = new ObjectManager();
@@ -81,6 +88,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			battleImg = ImageIO.read(this.getClass().getResourceAsStream("battleScene.png"));
 			bulbasaurImg = ImageIO.read(this.getClass().getResourceAsStream("bulbasaursprite.png"));
 			charmanderImg = ImageIO.read(this.getClass().getResourceAsStream("charmanderSprite.png"));
+			squirtleImg = ImageIO.read(this.getClass().getResourceAsStream("SquirtleSprite.png"));
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -136,6 +145,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	void drawEndState() {
 
+	}
+
+	String getChosen() {
+		return chosen;
 	}
 
 	@Override
@@ -225,6 +238,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				JOptionPane.showMessageDialog(this, "Bulbasaur eh? Very nice choice. Now Let's have a battle!",
 						"Professor Oak", JOptionPane.INFORMATION_MESSAGE,
 						new ImageIcon(this.getClass().getResource("Oak.png")));
+				chosen = "Bulbasaur";
 				manager2.addObject(bulbasaur);
 				CURRENT_STATE = BATTLE_STATE;
 			}
@@ -236,7 +250,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				JOptionPane.showMessageDialog(this, "Squirtle eh? Very nice choice. Now Let's have a battle!",
 						"Professor Oak", JOptionPane.INFORMATION_MESSAGE,
 						new ImageIcon(this.getClass().getResource("Oak.png")));
-
+				manager2.addObject(squirtle);
 				CURRENT_STATE = BATTLE_STATE;
 			}
 
