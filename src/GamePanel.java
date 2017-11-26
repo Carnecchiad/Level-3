@@ -1,8 +1,11 @@
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -28,6 +31,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public static BufferedImage squirtleImg;
 	public static BufferedImage oponentImg;
 	boolean haveTalked;
+	Rectangle2D.Double health = new Rectangle2D.Double(50, 90, 90, 10);
 	Trainer trainer;
 	Professor oak;
 	ObjectManager manager;
@@ -45,7 +49,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Bulbasaur bulbasaur;
 	Charmander charmander;
 	Squirtle squirtle;
-	Opponent opponent;
+	Opponent opponent1;
+	Opponent opponent2;
+	Opponent opponent3;
 	String chosen = "";
 
 	public GamePanel() {
@@ -65,7 +71,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		bulbasaur = new Bulbasaur(45, 235, 100, 87);
 		charmander = new Charmander(45, 235, 90, 93);
 		squirtle = new Squirtle(45, 235, 90, 92);
-		opponent = new Opponent(100, 100, 90, 92, chosen);
+		opponent1 = new Opponent(225, 125, 75, 85, "Bulbasaur");
+		opponent2 = new Opponent(225, 125, 75, 75, "Charmander");
+		opponent3 = new Opponent(225, 125, 75, 78, "Squirtle");
 		haveTalked = false;
 		manager = new ObjectManager();
 		manager2 = new ObjectManager();
@@ -139,7 +147,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawBattleState(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
 		g.drawImage(battleImg, 0, 0, Pokemon.width1, Pokemon.height1, null);
+		g2.setColor(Color.GREEN);
+		g2.fill(health);
+
 		manager2.draw2(g);
 	}
 
@@ -227,6 +239,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				JOptionPane.showMessageDialog(this, "Charmander eh? Very nice choice. Now Let's have a battle!",
 						"Professor Oak", JOptionPane.INFORMATION_MESSAGE,
 						new ImageIcon(this.getClass().getResource("Oak.png")));
+				manager2.addObject(opponent2);
 				manager2.addObject(charmander);
 				CURRENT_STATE = BATTLE_STATE;
 			}
@@ -238,7 +251,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				JOptionPane.showMessageDialog(this, "Bulbasaur eh? Very nice choice. Now Let's have a battle!",
 						"Professor Oak", JOptionPane.INFORMATION_MESSAGE,
 						new ImageIcon(this.getClass().getResource("Oak.png")));
-				chosen = "Bulbasaur";
+				manager2.addObject(opponent1);
 				manager2.addObject(bulbasaur);
 				CURRENT_STATE = BATTLE_STATE;
 			}
@@ -250,6 +263,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				JOptionPane.showMessageDialog(this, "Squirtle eh? Very nice choice. Now Let's have a battle!",
 						"Professor Oak", JOptionPane.INFORMATION_MESSAGE,
 						new ImageIcon(this.getClass().getResource("Oak.png")));
+				manager2.addObject(opponent3);
 				manager2.addObject(squirtle);
 				CURRENT_STATE = BATTLE_STATE;
 			}
