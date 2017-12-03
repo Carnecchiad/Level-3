@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -31,7 +32,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public static BufferedImage squirtleImg;
 	public static BufferedImage oponentImg;
 	boolean haveTalked;
-	Rectangle2D.Double health = new Rectangle2D.Double(50, 90, 90, 10);
+	int enemyhp = 90;
+	int hp = 90;
+	double growl = 1;
+	double enemygrowl = 1;
+	Random r1 = new Random();
+	Rectangle2D.Double enemyHealth = new Rectangle2D.Double(50, 90, enemyhp, 10);
+	Rectangle2D.Double health = new Rectangle2D.Double(257, 260, hp, 10);
 	Trainer trainer;
 	Professor oak;
 	ObjectManager manager;
@@ -149,10 +156,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	void drawBattleState(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g.drawImage(battleImg, 0, 0, Pokemon.width1, Pokemon.height1, null);
-		g2.setColor(Color.GREEN);
-		g2.fill(health);
 
 		manager2.draw2(g);
+		if (manager2.objects.contains(opponent1)) {
+			g2.drawString("Tackle", 275, 350);
+		}
+		g2.setColor(Color.GREEN);
+		g2.fill(health);
+		g2.fill(enemyHealth);
+
 	}
 
 	void drawEndState() {
@@ -161,6 +173,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	String getChosen() {
 		return chosen;
+	}
+
+	void attack(String x) {
+		if (x.equals("Tackle")) {
+			enemyhp = (int) (enemyhp - ((r1.nextInt(11) + 15) * enemygrowl));
+		}
+		if (x.equals("Growl")) {
+			growl -= .1;
+		}
+	}
+
+	void enemyAttack(String x) {
+		if (x.equals("Tackle")) {
+			hp = (int) (hp - ((r1.nextInt(11) + 15) * growl));
+		}
+		if (x.equals("Growl")) {
+			enemygrowl -= .1;
+		}
 	}
 
 	@Override
