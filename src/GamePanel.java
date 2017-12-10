@@ -34,6 +34,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	boolean haveTalked;
 	int enemyhp = 90;
 	int hp = 90;
+	int time = 0;
+	int pos = 190;
 	double growl = 1;
 	double enemygrowl = 1;
 	Random r1 = new Random();
@@ -85,6 +87,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		manager = new ObjectManager();
 		manager2 = new ObjectManager();
 		manager.addObject(trainer);
+		// manager2.addObject(trainer);
 		manager.addObject(oak);
 		manager.addObject(shelf1);
 		manager.addObject(shelf2);
@@ -137,7 +140,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void updateBattleState() {
-
+		// manager2.update();
+		time++;
 	}
 
 	void updateEndState() {
@@ -159,12 +163,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		manager2.draw2(g);
 		if (manager2.objects.contains(opponent1)) {
-			g2.drawString("Tackle", 275, 350);
+			g2.drawString("Tackle", 205, 350);
+			g2.drawString("Growl", 275, 350);
 		}
+		// if (time <= 3000) {
+		// g2.drawString("TEST", 200, 200);
+		// }
 		g2.setColor(Color.GREEN);
 		g2.fill(health);
 		g2.fill(enemyHealth);
-
+		g2.setColor(Color.BLACK);
+		g2.fillPolygon(new int[] { pos, pos, pos + 10 }, new int[] { 340, 350, 345 }, 3);
 	}
 
 	void drawEndState() {
@@ -203,6 +212,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			updateGameState();
 		} else if (CURRENT_STATE == END_STATE) {
 			updateEndState();
+		} else if (CURRENT_STATE == BATTLE_STATE) {
+			updateBattleState();
 		}
 	}
 
@@ -302,6 +313,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		ball1.setCanUse(false);
 		ball2.setCanUse(false);
 		ball3.setCanUse(false);
+
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT && CURRENT_STATE == BATTLE_STATE) {
+			pos = 260;
+		}
+
+		if (e.getKeyCode() == KeyEvent.VK_LEFT && CURRENT_STATE == BATTLE_STATE) {
+			pos = 190;
+		}
+
 	}
 
 	@Override

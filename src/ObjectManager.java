@@ -37,7 +37,7 @@ public class ObjectManager {
 			o.draw(g);
 		}
 	}
-	
+
 	public void draw2(Graphics g) {
 		for (int i = 0; i < objects.size(); i++) {
 
