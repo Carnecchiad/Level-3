@@ -35,12 +35,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int enemyhp = 90;
 	int hp = 90;
 	int time = 0;
+	int attackTimer = 0;
+	int spaceDelay = 0;
 	int pos = 190;
+	int attack = 0;
+	boolean canAttack = true;
+	boolean enemyCanAttack = false;
 	double growl = 1;
 	double enemygrowl = 1;
 	Random r1 = new Random();
-	Rectangle2D.Double enemyHealth = new Rectangle2D.Double(50, 90, enemyhp, 10);
-	Rectangle2D.Double health = new Rectangle2D.Double(257, 260, hp, 10);
+	Random r2 = new Random();
+	String name = "";
+	String enemyName = "";
+	String enemyAttackName = "";
 	Trainer trainer;
 	Professor oak;
 	ObjectManager manager;
@@ -142,6 +149,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	void updateBattleState() {
 		// manager2.update();
 		time++;
+		if (!canAttack) {
+			attackTimer++;
+		}
 	}
 
 	void updateEndState() {
@@ -166,9 +176,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			g2.drawString("Tackle", 205, 350);
 			g2.drawString("Growl", 275, 350);
 		}
-		// if (time <= 3000) {
-		// g2.drawString("TEST", 200, 200);
-		// }
+		if (attackTimer <= 3000 && attack == 1) {
+			g2.drawString(name + " used tackle", 30, 350);
+		}
+
+		else if (attackTimer > 3000 && attackTimer <= 6000 && enemyCanAttack) {
+			enemyAttack(r2.nextInt(2));
+			enemyCanAttack = false;
+		}
+
+		else if (attackTimer > 3000 && attackTimer <= 6000) {
+			g2.drawString(enemyName + " used " + enemyAttackName, 30, 350);
+		}
+
+		else if (attackTimer > 6000) {
+			canAttack = true;
+			attack = 0;
+			attackTimer = 0;
+		}
+		Rectangle2D.Double enemyHealth = new Rectangle2D.Double(50, 90, enemyhp, 10);
+		Rectangle2D.Double health = new Rectangle2D.Double(257, 260, hp, 10);
 		g2.setColor(Color.GREEN);
 		g2.fill(health);
 		g2.fill(enemyHealth);
@@ -193,11 +220,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 	}
 
-	void enemyAttack(String x) {
-		if (x.equals("Tackle")) {
+	void enemyAttack(int x) {
+		if (x == 0) {
+			enemyAttackName = "Tackle";
 			hp = (int) (hp - ((r1.nextInt(11) + 15) * growl));
 		}
-		if (x.equals("Growl")) {
+		if (x == 1) {
+			enemyAttackName = "Growl";
 			enemygrowl -= .1;
 		}
 	}
@@ -282,6 +311,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 						new ImageIcon(this.getClass().getResource("Oak.png")));
 				manager2.addObject(opponent2);
 				manager2.addObject(charmander);
+				name = "Charmander";
+				enemyName = "Squirtle";
 				CURRENT_STATE = BATTLE_STATE;
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE && ball1.canUse && haveTalked) {
@@ -294,6 +325,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 						new ImageIcon(this.getClass().getResource("Oak.png")));
 				manager2.addObject(opponent1);
 				manager2.addObject(bulbasaur);
+				name = "Bulbasaur";
+				enemyName = "Charmander";
 				CURRENT_STATE = BATTLE_STATE;
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE && ball3.canUse && haveTalked) {
@@ -306,6 +339,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 						new ImageIcon(this.getClass().getResource("Oak.png")));
 				manager2.addObject(opponent3);
 				manager2.addObject(squirtle);
+				name = "Squirtle";
+				enemyName = "Bulbasaur";
 				CURRENT_STATE = BATTLE_STATE;
 			}
 
@@ -320,6 +355,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		if (e.getKeyCode() == KeyEvent.VK_LEFT && CURRENT_STATE == BATTLE_STATE) {
 			pos = 190;
+		}
+
+		if (e.getKeyCode() == KeyEvent.VK_SPACE && CURRENT_STATE == BATTLE_STATE && pos == 190 && canAttack) {
+			spaceDelay++;
+			if (spaceDelay > 1) {
+				attack = 1;
+				attack("Tackle");
+				canAttack = false;
+				enemyCanAttack = true;
+			}
 		}
 
 	}
