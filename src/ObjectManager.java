@@ -11,7 +11,6 @@ public class ObjectManager {
 	}
 
 	public void addObject(GameObject o) {
-		System.out.println("test");
 		objects.add(o);
 	}
 

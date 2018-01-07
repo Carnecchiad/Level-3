@@ -11,6 +11,6 @@ public class Obstacle extends GameObject {
 	}
 
 	void draw(Graphics g) {
-		g.drawRect(x, y, width, height);
+		// g.drawRect(x, y, width, height);
 	}
 }

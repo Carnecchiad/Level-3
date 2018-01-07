@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -43,6 +44,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	boolean enemyCanAttack = false;
 	double growl = 1;
 	double enemygrowl = 1;
+	Font font = new Font("Arial", Font.BOLD, 36);
 	Random r1 = new Random();
 	Random r2 = new Random();
 	String name = "";
@@ -134,7 +136,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		} else if (CURRENT_STATE == GAME_STATE) {
 			drawGameState(g);
 		} else if (CURRENT_STATE == END_STATE) {
-			// drawEndState(g);
+			drawEndState(g);
 		} else if (CURRENT_STATE == BATTLE_STATE) {
 			drawBattleState(g);
 		}
@@ -151,6 +153,22 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		time++;
 		if (!canAttack) {
 			attackTimer++;
+		}
+
+		if (enemyhp <= 0) {
+			JOptionPane.showMessageDialog(this,
+					"Congradulations! You have defeated me. Now it is time for you to set off on your own adventure...",
+					"Professor Oak", JOptionPane.INFORMATION_MESSAGE,
+					new ImageIcon(this.getClass().getResource("Oak.png")));
+			CURRENT_STATE = END_STATE;
+		}
+
+		if (hp <= 0) {
+			JOptionPane.showMessageDialog(this,
+					"Wow I can't believe you lost. You Suck! Anyway, Now it is time for you to set off on your own adventure...",
+					"Professor Oak", JOptionPane.INFORMATION_MESSAGE,
+					new ImageIcon(this.getClass().getResource("Oak.png")));
+			CURRENT_STATE = END_STATE;
 		}
 	}
 
@@ -172,12 +190,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.drawImage(battleImg, 0, 0, Pokemon.width1, Pokemon.height1, null);
 
 		manager2.draw2(g);
-		if (manager2.objects.contains(opponent1)) {
+		if (manager2.objects.contains(opponent1) || manager2.objects.contains(opponent2)
+				|| manager2.objects.contains(opponent3)) {
 			g2.drawString("Tackle", 205, 350);
 			g2.drawString("Growl", 275, 350);
 		}
 		if (attackTimer <= 3000 && attack == 1) {
-			g2.drawString(name + " used tackle", 30, 350);
+			g2.drawString(name + " used Tackle", 30, 350);
+		}
+
+		else if (attackTimer <= 3000 && attack == 2) {
+			g2.drawString(name + " used Growl", 30, 350);
 		}
 
 		else if (attackTimer > 3000 && attackTimer <= 6000 && enemyCanAttack) {
@@ -203,8 +226,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g2.fillPolygon(new int[] { pos, pos, pos + 10 }, new int[] { 340, 350, 345 }, 3);
 	}
 
-	void drawEndState() {
-
+	void drawEndState(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		Rectangle2D.Double background = new Rectangle2D.Double(0, 0, 358, 429);
+		g2.setColor(Color.BLUE);
+		g2.fill(background);
+		g2.setFont(font);
+		g2.setColor(Color.BLACK);
+		g2.drawString("THE END", 100, 200);
 	}
 
 	String getChosen() {
@@ -362,6 +391,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (spaceDelay > 1) {
 				attack = 1;
 				attack("Tackle");
+				canAttack = false;
+				enemyCanAttack = true;
+			}
+		}
+
+		if (e.getKeyCode() == KeyEvent.VK_SPACE && CURRENT_STATE == BATTLE_STATE && pos == 260 && canAttack) {
+			spaceDelay++;
+			if (spaceDelay > 1) {
+				attack = 2;
+				attack("Growl");
 				canAttack = false;
 				enemyCanAttack = true;
 			}

@@ -19,6 +19,7 @@ public class GameObject {
 	}
 
 	void draw(Graphics g) {
-		g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
+		// g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width,
+		// collisionBox.height);
 	}
 }
